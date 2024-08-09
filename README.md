@@ -3,7 +3,7 @@ Outlier detection plug-in implementing ML.NET in AutoCad.
 
 ## Overview
 
-This AutoCAD plug-in leverages ML techniques to detect outliers in your drawings. It analyzes entities (hatches, dimensions, text) within the drawing to identify potential errors that may impact the quality and accuracy of your projects. The plug-in is designed to integrate ML.NET seamlessly into your AutoCAD workflow, offering a powerful tool for quality control and error detection.
+This AutoCAD plug-in leverages ML techniques to detect outliers in your drawings. It analyzes entities (hatches, dimensions, text) within the drawing to identify potential errors that may impact the quality and accuracy of your projects. Designed to integrate ML.NET seamlessly into your AutoCAD workflow, offering a powerful tool for quality control and error detection. **Stochastic Dual Coordinate Ascent with Maximum Entropy**, a popular algorithm for multiclass classification tasks, is used for learning algorithm as it is suitable for high-dimensional data without fine-tuning.
 
 ## Features
 
@@ -63,21 +63,5 @@ Solution : Copy dll files to acad.exe folder.
 - .NET Framework 4.8
 - ML.NET 3.0.1
 
-Contributing
-
+## Contributing
 Contributions are welcome! Feel free to submit issues, fork the repository, and make pull requests. For major changes, please open an issue first to discuss what you would like to change.
-License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-Acknowledgments
-
-    Thanks to the ML.NET team for providing a robust framework for machine learning in .NET applications.
-    Special thanks to the AutoCAD developer community for their continuous support and resources
-
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
