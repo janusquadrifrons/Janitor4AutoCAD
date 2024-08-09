@@ -1,0 +1,10 @@
+Common Errors
+- Mono-labeled data : Training data should be classified as at least two categories.
+- Null features at input-outputs variables 
+- Unable to load DLL 'CpuMathNative' : Solution : copy .dll to acad.exe folder
+- Could not load file or assembly 'System.Threading.Tasks.Extensions, Version=4.5.4.0, 
+Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. 
+The located assembly's manifest definition does not match the assembly reference. 
+Solution : Make assembly binding redirect in app.config file and acad.exe.config file...
+- Unable to locate 'System.Threading.Tasks.Extensions.dll' and its dependency System.Runtime.CompilerServices.Unsafe.dll
+Solution : Copy dll's to acad.exe folder
