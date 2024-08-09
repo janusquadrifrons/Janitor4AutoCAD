@@ -36,13 +36,16 @@ Solution : Assembly binding by redirections in app.config and acad.exe.config fi
 ```
 
 
-**- Assembly reference versioning :** Such as,
+**- Missing assembly references :** Such as,
 ```
 Unable to locate 'System.Threading.Tasks.Extensions.dll' and its dependency System.Runtime.CompilerServices.Unsafe.dll
 ```
 ```
 Solution : Copy dll files to acad.exe folder.
 ```
+
+## Data Points
+For a basic outlier detection model with a few features, you might start with *500-1000* data points. This assumes a balanced dataset and relatively simple features. If your model involves moderate complexity, with some non-linear relationships or a slightly larger feature set, aim for *2,000-5,000* data points. This range allows the model to learn a broader set of patterns and anomalies. For more complex models, especially if you plan to add more features or use a more sophisticated algorithm, consider *10,000+* data points. This ensures the model can generalize well to new, unseen drawings.
 
 ## Usage with Commands
 
@@ -57,6 +60,9 @@ Solution : Copy dll files to acad.exe folder.
 #### DETECTOUTLIERS      
 -Function       : Runs the trained model against the current drawing.\
 -Purpose        : identifying any entities that are potential outliers based on the trained data.
+
+## Usage with UI
+*Coming Soon*
 
 ## Requirements
 - AutoCAD 2022
