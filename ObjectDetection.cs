@@ -1,4 +1,7 @@
-﻿using Microsoft.ML;
+﻿// TODO : Append extracted data to big data file
+// TODO : Add similar code blocks for other entity types
+
+using Microsoft.ML;
 
 using System.IO;
 using System.Collections.Generic;
@@ -6,7 +9,6 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
 using Exception = Autodesk.AutoCAD.Runtime.Exception; // --- Clash with System.Exception
-using Microsoft.ML.Transforms;
 
 namespace Janitor
 {
@@ -70,7 +72,8 @@ namespace Janitor
             // If the layer name of the text entity includes the word "text", it is considered correct, otherwise incorrect
             if (entity is DBText text)
             {
-                if (text.Layer.Contains("text"))
+                if (text.Layer.ToLower().Contains("text") ||
+                    text.Layer.ToLower().Contains("yazı"))
                 {
                     return "correct";
                 }
@@ -84,7 +87,8 @@ namespace Janitor
             // If the dimension style name of the dimension entity includes the word "dim", it is considered correct, otherwise incorrect
             else if (entity is Dimension dim)
             {
-                if (dim.DimensionStyleName.Contains("dim"))
+                if (dim.DimensionStyleName.ToLower().Contains("dim")
+                    || dim.DimensionStyleName.ToLower().Contains("dım"))
                 {
                     return "correct";
                 }
@@ -98,7 +102,7 @@ namespace Janitor
             // If the layer name of the hatch entity includes the word "hatch", it is considered correct, otherwise incorrect
             else if (entity is Hatch hatch)
             {
-                if (hatch.Layer.Contains("hatch"))
+                if (hatch.Layer.ToLower().Contains("hatch"))
                 {
                     return "correct";
                 }
@@ -119,10 +123,14 @@ namespace Janitor
         public class OutlierDetection : BaseCommand
         {
             private static PredictionEngine<DataPoint, Prediction> predictionEngine;
+            // Counter for the number of outliers
+            int outlierHatchCount = 0; int outlierTextCount = 0; int outlierDimCount = 0;
 
             [CommandMethod("DetectOutliers")]
             public void DetectOutliers()
             {
+                outlierHatchCount = 0; outlierTextCount = 0; outlierDimCount = 0; // --- Reset counters
+
                 LoadModel();
 
                 using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -147,6 +155,11 @@ namespace Janitor
 
                         // TODO : Add similar code blocks for other entity types
                     }
+
+                    ed.WriteMessage("\nOutlier detection completed.");
+                    ed.WriteMessage("\nText Outliers Count: " + outlierTextCount);
+                    ed.WriteMessage("\nDimension Outliers Count: " + outlierDimCount);
+                    ed.WriteMessage("\nHatch Outliers Count: " + outlierHatchCount);
                 }
 
             }
@@ -185,6 +198,20 @@ namespace Janitor
 
                     if (prediction.PredictedLabel == "incorrect")
                     {
+                        // Counter for the number of outliers
+                        if(entity is Hatch)
+                        {
+                            outlierHatchCount++;
+                        }
+                        else if (entity is DBText)
+                        {
+                            outlierTextCount++;
+                        }
+                        else if (entity is Dimension)
+                        {
+                            outlierDimCount++;
+                        }
+
                         ed.WriteMessage($"Outlier detected: {entity.GetType().Name} on layer {entity.Layer}\n");
                     }
                 }

@@ -1,9 +1,8 @@
-﻿using Autodesk.AutoCAD.Runtime;
+﻿// TDOO : Add command for training big data file.
+
+using Autodesk.AutoCAD.Runtime;
 
 using Microsoft.ML;
-//using Microsoft.ML.Data;
-//using Microsoft.ML.Transforms;
-//using Microsoft.ML.Transforms.Text;
 
 using System.IO;
 
@@ -37,7 +36,7 @@ namespace Janitor
 
                 try
                 {
-                    data = mlContext.Data.LoadFromTextFile<DataPoint>(dataPath, separatorChar: ',', hasHeader: true); // --- Change the separatorChar if needed
+                    data = mlContext.Data.LoadFromTextFile<DataPoint>(dataPath, separatorChar: ',', hasHeader: true); // --- Change the separatorChar acc.to your data file syntax
                 }
                 catch (System.Exception ex)
                 {
@@ -69,7 +68,7 @@ namespace Janitor
                 var splitData = mlContext.Data.TrainTestSplit(data, testFraction: 0.2);
 
                 // Define data preparation and training pipeline
-                #region useless pipelines
+                #region previous pipelines
                 /*
                 var pipeline = mlContext.Transforms.Conversion.MapValueToKey("Label")
                 .Append(mlContext.Transforms.Text.FeaturizeText("EntityTypeFeaturized", "EntityType"))
@@ -170,8 +169,8 @@ namespace Janitor
                 */
                 #endregion
 
-                var pipeline = mlContext.Transforms.Conversion.MapValueToKey("Label")
-                .Append(mlContext.Transforms.Categorical.OneHotEncoding("EntityTypeFeaturized", "EntityType"))
+                var pipeline = mlContext.Transforms.Conversion.MapValueToKey("Label")  
+                .Append(mlContext.Transforms.Categorical.OneHotEncoding("EntityTypeFeaturized", "EntityType")) 
                 .Append(mlContext.Transforms.Categorical.OneHotEncoding("LayerFeaturized", "Layer"))
                 .Append(mlContext.Transforms.Concatenate("Features", "EntityTypeFeaturized", "LayerFeaturized"))
                 .Append(mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy())
@@ -187,7 +186,6 @@ namespace Janitor
                 var metrics = mlContext.MulticlassClassification.Evaluate(predictions);
 
                 // Print evaluation metrics
-                
                 ed.WriteMessage($"Log-loss: {metrics.LogLoss}");
                 ed.WriteMessage($"Macro accuracy: {metrics.MacroAccuracy}");
                 ed.WriteMessage($"Micro accuracy: {metrics.MicroAccuracy}");
