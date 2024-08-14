@@ -17,7 +17,7 @@ This AutoCAD plug-in leverages ML techniques to detect outliers in your drawings
 
 **1- Clone or Download the Repository:**
 ```ruby
-git clone https://github.com/yourusername/AutoCAD-Outlier-Detection.git
+git clone https://github.com/janusquadrifrons/Janitor4AutoCAD
 ```
 **2- Build the Project:** Open the solution file in your preferred IDE and build the project. Make sure you have all dependencies installed, including ML.NET and the necessary AutoCAD libraries.
 
