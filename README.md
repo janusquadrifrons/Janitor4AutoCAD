@@ -3,15 +3,15 @@ Outlier detection plug-in implementing ML.NET in AutoCad.
 
 ## Overview
 
-This AutoCAD plug-in leverages ML techniques to detect outliers in your drawings. It analyzes entities (hatches, dimensions, text) within the drawing to identify potential errors that may impact the quality and accuracy of your projects. Designed to integrate ML.NET seamlessly into your AutoCAD workflow, offering a powerful tool for quality control and error detection. **Stochastic Dual Coordinate Ascent with Maximum Entropy**, a popular algorithm for multiclass classification tasks, is used for learning algorithm as it is suitable for high-dimensional data without fine-tuning.
+AutoCAD plug-in leverages ML techniques to detect outliers in your drawings. It analyzes entities (hatches, dimensions, text) within the drawing to identify potential errors that may impact the quality and accuracy of your projects. Designed to integrate ML.NET seamlessly into your AutoCAD workflow, offering a powerful tool for quality control and error detection. **Stochastic Dual Coordinate Ascent with Maximum Entropy**, a popular algorithm for multiclass classification tasks, is used for learning algorithm as it is suitable for high-dimensional data without fine-tuning.
 
 ## Features
 
-- **Entity Type Analysis:** The plug-in evaluates various AutoCAD entities like DBText, Line, and Dimension to identify potential outliers based on their positions, layers, and other attributes.
+- **Entity Type Analysis:** The plug-in evaluates various AutoCAD entities like DBText, Line, and Dimension to identify potential outliers based on their layers.
 - **Layer Naming Verification:** It checks for incorrect or inconsistent layer naming conventions, helping maintain uniformity across your CAD projects.
-- **Customizable Training Data:** Users can generate and customize their own training data sets to tailor the model for specific project needs.
-- **Real-Time Outlier Detection:** The plug-in runs within AutoCAD, providing real-time feedback on detected outliers during the design process.
-- **User-Friendly Interface:** Easy-to-use commands and seamless integration with AutoCAD.
+- **Customizable Training Data:** Users can generate and customize their own training data sets manually to tailor the model for specific project needs.
+- **Real-Time Outlier Detection:** The plug-in runs within AutoCAD, providing real-time feedback on detected outliers during drafting.
+- **User-Friendly Commands:** Seamless integration with AutoCAD.
 
 ## Installation
 
