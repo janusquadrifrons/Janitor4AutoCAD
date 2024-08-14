@@ -12,7 +12,7 @@ using Exception = Autodesk.AutoCAD.Runtime.Exception; // --- Clash with System.E
 
 namespace Janitor
 {
-    public class Janitor : BaseCommand
+    public class Janitor : BaseCommand // --- Inheritance from BaseCommand
     {
         // Global variable - Path of the curent drawing
         public static string csvPath;
@@ -87,8 +87,8 @@ namespace Janitor
             // If the dimension style name of the dimension entity includes the word "dim", it is considered correct, otherwise incorrect
             else if (entity is Dimension dim)
             {
-                if (dim.DimensionStyleName.ToLower().Contains("dim")
-                    || dim.DimensionStyleName.ToLower().Contains("dım"))
+                if (dim.Layer.ToLower().Contains("dim")
+                    || dim.Layer.ToLower().Contains("dım"))
                 {
                     return "correct";
                 }
@@ -97,7 +97,22 @@ namespace Janitor
                     return "incorrect";
                 }
             }
-            
+
+            // Labeling logic for rotated dimension entities:
+            // If the dimension style name of the dimension entity includes the word "dim", it is considered correct, otherwise incorrect
+            else if (entity is RotatedDimension rDim)
+            {
+                if (rDim.Layer.ToLower().Contains("dim")
+                    || rDim.Layer.ToLower().Contains("dım"))
+                {
+                    return "correct";
+                }
+                else
+                {
+                    return "incorrect";
+                }
+            }
+
             // Labeling logic for hatch entities :
             // If the layer name of the hatch entity includes the word "hatch", it is considered correct, otherwise incorrect
             else if (entity is Hatch hatch)
@@ -119,11 +134,9 @@ namespace Janitor
         }
 
         /////////////////////////////////////////////////////
-        ///
         public class OutlierDetection : BaseCommand
         {
-            private static PredictionEngine<DataPoint, Prediction> predictionEngine;
-            // Counter for the number of outliers
+            private static PredictionEngine<DataPoint, Prediction> predictionEngine; 
             int outlierHatchCount = 0; int outlierTextCount = 0; int outlierDimCount = 0;
 
             [CommandMethod("DetectOutliers")]
@@ -152,8 +165,6 @@ namespace Janitor
                         };
 
                         CheckAndReport(dataPoint, ent);
-
-                        // TODO : Add similar code blocks for other entity types
                     }
 
                     ed.WriteMessage("\nOutlier detection completed.");
@@ -213,6 +224,10 @@ namespace Janitor
                         }
 
                         ed.WriteMessage($"Outlier detected: {entity.GetType().Name} on layer {entity.Layer}\n");
+                    }
+                    if (prediction.PredictedLabel == "unknown")
+                    {
+                        ed.WriteMessage($"Unknown entity detected: {entity.GetType().Name} on layer {entity.Layer}\n");
                     }
                 }
                 catch (Exception ex)
